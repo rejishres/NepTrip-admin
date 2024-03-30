@@ -20,10 +20,10 @@ const AdminDashboard = () => {
             <NavLink href="/dashboard">Dashboard</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/destination">Destination</NavLink>
+            <NavLink href="/admin/destination">Destination</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="/category">Category</NavLink>
+            <NavLink href="/admin/category">Category</NavLink>
           </NavItem>
         </NavBarList>
       </SideNavBar>

@@ -9,6 +9,7 @@ import RecommendationPage from '../services/RecommendationService/Recommendation
 import AdminDashboard from '../pages/Admin/Dashboard/adminDashboard';
 import DestinationPage from '../pages/Admin/DestinationPage/destinationPage';
 import CategoryPage from '../pages/Admin/CategoryPage/categoryPage';
+import SearchResults from '../pages/SearchResults/searchResults';
 
 const RoutesComponent = () => {
   return (
@@ -18,11 +19,12 @@ const RoutesComponent = () => {
       <Route path="/login" element={<LoginModal />} />
       <Route path="/destinations" element={<Destinations />} />
       <Route path="/home" element={<HomePage />} />
+      <Route path="/searchResults" element={<SearchResults />} />
       <Route path="/about" element={<AboutScreen />} />
       <Route path="/recommendation" element={<RecommendationPage />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/destination" element={<DestinationPage />} />
-        <Route path="/admin/category" element={<CategoryPage />} />
+      <Route path="/admin/category" element={<CategoryPage />} />
 
     </Routes>
   );
