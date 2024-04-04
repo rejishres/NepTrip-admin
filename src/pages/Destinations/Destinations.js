@@ -30,8 +30,7 @@ const Destinations = () => {
   const handleCardClick = (destination) => {
     setSelectedDestination(destination);
     navigate(`/featured-destinations/${destination.destination_name}`);
-    // Instead of navigating immediately, you can set the selected destination
-    // and conditionally render the detailed view.
+   
   };
 
   return (

@@ -5,7 +5,6 @@ import HomePage from '../pages/Home/home';
 import LoginModal from '../pages/LoginModal/LoginModal';
 import Destinations from '../components/Destinations/Destinations';
 import AboutScreen from '../pages/AboutUs/AboutUs';
-import RecommendationPage from '../services/RecommendationService/RecommendationService';
 import AdminDashboard from '../pages/Admin/Dashboard/adminDashboard';
 import DestinationPage from '../pages/Admin/DestinationPage/destinationPage';
 import CategoryPage from '../pages/Admin/CategoryPage/categoryPage';
@@ -21,7 +20,6 @@ const RoutesComponent = () => {
       <Route path="/home" element={<HomePage />} />
       <Route path="/searchResults" element={<SearchResults />} />
       <Route path="/about" element={<AboutScreen />} />
-      <Route path="/recommendation" element={<RecommendationPage />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/admin/destination" element={<DestinationPage />} />
       <Route path="/admin/category" element={<CategoryPage />} />

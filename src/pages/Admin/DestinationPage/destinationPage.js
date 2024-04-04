@@ -13,7 +13,9 @@ import {
   SidebarContainer,
   SidebarLink,
   SidebarMenu,
-} from './destinationStyles'; // Import styled components
+} from './destinationStyles';
+import axios from 'axios';
+ // Import styled components
 
 const DestinationPage = () => {
   const [destinations, setDestinations] = useState([]);
@@ -21,13 +23,13 @@ const DestinationPage = () => {
     name: '',
     district_id: '',
     description: '',
-    categories: '',
+    categories: [], // Change categories to an array
     img: '',
   });
 
   useEffect(() => {
     // Fetch data from the backend API
-    fetch(`http://localhost:5000/destinations/createDestination`)
+    axios.get(`http://localhost:5000/destinations`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -61,44 +63,25 @@ const DestinationPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // First, upload the image to the backend
-      const imageData = new FormData();
-      imageData.append('img', newDestination.img);
+      const formData = new FormData();
+      formData.append('name', newDestination.name);
+      formData.append('district_id', newDestination.district_id);
+      formData.append('description', newDestination.description);
+      formData.append('categories',(newDestination.categories));
+      formData.append('img', newDestination.img);
 
-      const imageResponse = await fetch(`http://localhost:5000/destinations/createDestination`, {
+      const response = await axios.get(`http://localhost:5000/destinations/createDestination`, {
         method: 'POST',
-        body: imageData,
+        body: formData,
       });
 
-      if (!imageResponse.ok) {
-        throw new Error('Failed to upload image');
-      }
-
-      const imageJson = await imageResponse.json();
-      const imageUrl = imageJson.imageUrl;
-
-      // Then, send the destination data along with the image URL to the backend
-      const destinationData = {
-        ...newDestination,
-        img: imageUrl,
-      };
-
-      const destinationResponse = await fetch(`http://localhost:5000/destinations/createDestination`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(destinationData),
-      });
-
-      if (!destinationResponse.ok) {
+      if (!response.ok) {
         throw new Error('Failed to add destination');
       }
 
-      // If successful, update the destinations state with the new destination
-      const newDestinationWithImageUrl = { ...newDestination, img: imageUrl };
-      setDestinations([...destinations, newDestinationWithImageUrl]);
-      setNewDestination({ name: '', district_id: '', description: '', categories: '', img: '' });
+      const data = await response.json();
+      setDestinations([...destinations, data]);
+      setNewDestination({ name: '', district_id: '', description: '', categories: [], img: '' });
     } catch (error) {
       console.error('Error adding destination:', error);
       // Handle error (e.g., display an error message to the user)
@@ -132,7 +115,7 @@ const DestinationPage = () => {
           <DestinationInput
             type="text"
             id="district_id"
-            name="district.name"
+            name="district_id"
             value={newDestination.district}
             onChange={handleChange}
             required
@@ -151,7 +134,7 @@ const DestinationPage = () => {
           <DestinationLabel htmlFor="category">Category:</DestinationLabel>
           <DestinationSelect
             id="categories.id"
-            name="categories.name"
+            name="categories"
             value={newDestination.category}
             onChange={handleChange}
             required
@@ -178,7 +161,7 @@ const DestinationPage = () => {
         <DestinationList>
           {destinations.map((destination, index) => (
             <DestinationListItem key={index}>
-              <DestinationListImage src={destination.image} alt={destination.name} />
+              <DestinationListImage src={destination.img} alt={destination.name} />
               <DestinationListName>{destination.name}</DestinationListName>
               <p>
                 {destination.district_id}, {destination.categories}

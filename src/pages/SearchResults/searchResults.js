@@ -1,60 +1,70 @@
-import React, { useState, useEffect } from 'react';
+// SearchResults.js
+import React from 'react';
 import { SearchResultsContainer } from './searchResultsStyles';
-import Rating from '../../components/Rating/rating';
+import pokhara from '../../assets/pokhara.jpeg'
+import fewa from '../../assets/fewa.jpeg'
+import peace from '../../assets/peace.jpg'
+import begnas from '../../assets/begnas.jpeg'
+import Annapurna from '../../assets/annapurna-hotel.jpeg'
+import NavBar from '../../components/Navbar/navbar';
+
 
 const SearchResults = () => {
-  // State to store the fetched data
-  const [searchedDestination, setSearchedDestination] = useState(null);
-  const [youMayAlsoLike, setYouMayAlsoLike] = useState([]);
-  const [nearbyHotels, setNearbyHotels] = useState([]);
-
-  // Function to fetch data from the backend API
-  const fetchData = async () => {
-    try {
-      // Fetch searched destination data
-      const searchedResponse = await fetch(`http://localhost:5000/destinations/viewDestination`);
-      const searchedData = await searchedResponse.json();
-      setSearchedDestination(searchedData);
-
-      // Fetch "You May Also Like" data
-      const youMayAlsoLikeResponse = await fetch(`http://localhost:5000/recommendation/userRecommendation`);
-      const youMayAlsoLikeData = await youMayAlsoLikeResponse.json();
-      setYouMayAlsoLike(youMayAlsoLikeData);
-
-      // Fetch nearby hotels data
-      const nearbyHotelsData = searchedData.result.hotels;
-      setNearbyHotels(nearbyHotelsData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      // Handle error (e.g., display an error message to the user)
-    }
+  const searchedDestination = {
+    id: 1,
+    name: 'Pokhara',
+    image: `${pokhara}`,
+    description: 'Lumbini is a significant pilgrimage site located in the Rupandehi District of Nepal, renowned as the birthplace of Siddhartha Gautama, who later became known as Lord Buddha. This UNESCO World Heritage Site attracts millions of Buddhist pilgrims and tourists every year. Lumbini is adorned with monasteries, temples, and stupas built by various Buddhist communities from around the world, reflecting the global reverence for Buddha teachings.',
   };
 
-  // Fetch data when the component mounts
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const youMayAlsoLike = [
+    {
+      id: 2,
+      name: 'Phewa Lake',
+      image: `${fewa}`,
+      description: 'Fewa Lake in Pokhara, Nepal, captivates with its serene waters reflecting the majestic Annapurna mountain range, offering a tranquil escape amidst breathtaking natural beauty.',
+    },
+    {
+      id: 3,
+      name: 'Peace Pagoda',
+      image: `${peace}`,
+      description: 'The Peace Pagoda, situated in Pokhara, Nepal, stands as a symbol of tranquility and harmony, offering panoramic views of the Annapurna range and Fewa Lake. ',
+    },
+    {
+      id: 4,
+      name: 'Begnas Lake',
+      image: `${begnas}`,
+      description: 'Begnas Lake, nestled amidst lush hills in Pokhara Valley, Nepal, enchants visitors with its serene waters and scenic surroundings. ',
+    },
+  ];
+
+  const nearbyHotels = [
+    {
+      id: 5,
+      name: 'Hotel Annapurna',
+      image: `${Annapurna}`,
+      description: 'Annapurna Hotel Pokhara, situated in the heart of Pokhara city, offers guests comfortable accommodations and convenient access to the citys attractions.',
+    },
+  ];
 
   return (
+    <div>
+        <NavBar />
     <SearchResultsContainer>
-      {searchedDestination && (
-        <div className="searched-destination">
-          <h2>Searched Destination</h2>
-          <img src={searchedDestination.image} alt={searchedDestination.name} />
-          <p>{searchedDestination.description}</p>
-          <Rating rating={searchedDestination.rating} />
-        </div>
-      )}
+      <div className="searched-destination">
+        <h2>Pokhara</h2>
+        <img src={searchedDestination.image} alt={searchedDestination.name} />
+        <p>{searchedDestination.description}</p>
+      </div>
 
       <div className="you-may-also-like">
-        <h2>You May Also Like</h2>
+        <h2>Places to Visit</h2>
         <div className="content-cards">
           {youMayAlsoLike.map((destination) => (
             <div className="content-card" key={destination.id}>
               <img src={destination.image} alt={destination.name} />
               <h3>{destination.name}</h3>
               <p>{destination.description}</p>
-              <Rating rating={destination.rating} />
             </div>
           ))}
         </div>
@@ -68,12 +78,12 @@ const SearchResults = () => {
               <img src={hotel.image} alt={hotel.name} />
               <h3>{hotel.name}</h3>
               <p>{hotel.description}</p>
-              <Rating rating={hotel.rating} />
             </div>
           ))}
         </div>
       </div>
     </SearchResultsContainer>
+    </div>
   );
 };
 
